@@ -23,6 +23,9 @@
     <ClInclude Include="src\GlobalDefs.h" />
     <ClInclude Include="src\Position.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{F546B255-6402-4950-B5DE-50D1D48CD46B}</ProjectGuid>
     <RootNamespace>Uisge</RootNamespace>

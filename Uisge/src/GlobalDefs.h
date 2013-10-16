@@ -7,6 +7,7 @@ const unsigned int VERTICAL_DIM = 6;    // A change here must be followed by cha
 const unsigned int HORIZONTAL_DIM = 7;  // A change here must be followed by changing the deCodeCOLUMN function
 
 enum etROW { A=1, B, C, D, E, F, INVALID_ROW }; // There are VERTICAL_DIM allowed rows
+const char rowNames [] = { "ABCDEF" };
 typedef enum etROW ROW;
 
 typedef unsigned int COLUMN;

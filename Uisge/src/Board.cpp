@@ -50,35 +50,29 @@ void Board::PrintOn(ostream &out)
 	string rowCenter = "";
 	string rowBoarderElement = "|---------";
 	string rowCenterElement = "|         ";
-
-
-	string columContent="";
-	
+	string columnContent="";	
 	for (int column=1; column <= HORIZONTAL_DIM; column++) 
 	{
 		string columnCenterSpacing = "    ";	
 		columnHeader += ("|" + columnCenterSpacing + std::to_string(column) + columnCenterSpacing);
 		rowBoarder += rowBoarderElement;
-		rowCenter += rowCenterElement;
 	}
-	//columnHeader += "|";
-	rowBoarder += "|";
-	rowCenter += "|";
+	columnHeader += "|\n";
+	rowBoarder += "|\n";
 
-	char rowNumbers[]="ABCDEF";
-
-	for(int i=0;i<sizeof(rowNumbers)-1;i++){
-		//char tem=rowNumbers[i];
-		columContent += ("|\n"+rowBoarder+"\n");
-		columContent += rowNumbers[i];
+	for (ROW row=A; row <= VERTICAL_DIM;)
+	{
+		columnContent += rowBoarder;
+		columnContent += rowNames[row-1];
 		for (int column=1; column <= HORIZONTAL_DIM; column++) 
 		{
-			columContent += rowCenterElement;
+			columnContent += rowCenterElement;
 		}
-		
+		columnContent += "|\n";
+		row=static_cast<ROW>(static_cast<int>(row)+1);
     }
-	columContent += ("|\n"+rowBoarder+"\n");
-	out<<columnHeader<<columContent<<endl;
+	columnContent += rowBoarder;
+	out<<columnHeader<<columnContent<<endl;
 }
 
 
