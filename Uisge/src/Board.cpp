@@ -1,5 +1,6 @@
 #include "GlobalDefs.h"
-
+#include <stdlib.h>
+#include <string>
 #include "Board.h"
 #include "Position.h"
 
@@ -44,8 +45,40 @@ Position* Board::getThePosition(ROW row, COLUMN column)
 
 void Board::PrintOn(ostream &out)
 {
-// out << ...
+	string columnHeader = " ";
+	string rowBoarder = " ";
+	string rowCenter = "";
+	string rowBoarderElement = "|---------";
+	string rowCenterElement = "|         ";
 
+
+	string columContent="";
+	
+	for (int column=1; column <= HORIZONTAL_DIM; column++) 
+	{
+		string columnCenterSpacing = "    ";	
+		columnHeader += ("|" + columnCenterSpacing + std::to_string(column) + columnCenterSpacing);
+		rowBoarder += rowBoarderElement;
+		rowCenter += rowCenterElement;
+	}
+	//columnHeader += "|";
+	rowBoarder += "|";
+	rowCenter += "|";
+
+	char rowNumbers[]="ABCDEF";
+
+	for(int i=0;i<sizeof(rowNumbers)-1;i++){
+		//char tem=rowNumbers[i];
+		columContent += ("|\n"+rowBoarder+"\n");
+		columContent += rowNumbers[i];
+		for (int column=1; column <= HORIZONTAL_DIM; column++) 
+		{
+			columContent += rowCenterElement;
+		}
+		
+    }
+	columContent += ("|\n"+rowBoarder+"\n");
+	out<<columnHeader<<columContent<<endl;
 }
 
 
