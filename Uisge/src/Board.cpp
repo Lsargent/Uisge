@@ -1,10 +1,10 @@
 #include "GlobalDefs.h"
-#include <stdlib.h>
 #include <string>
+using std::string;
 #include "Board.h"
 #include "Position.h"
-
 #include <iostream>
+
 using namespace std;
 
 Board::Board(void)
@@ -45,34 +45,35 @@ Position* Board::getThePosition(ROW row, COLUMN column)
 
 void Board::PrintOn(ostream &out)
 {
-	string columnHeader = " ";
-	string rowBoarder = " ";
-	string rowCenter = "";
-	string rowBoarderElement = "|---------";
-	string rowCenterElement = "|         ";
-	string columnContent="";	
-	for (int column=1; column <= HORIZONTAL_DIM; column++) 
+	string columnHeader = " "; //initializes column header with a space
+	string rowBorder = " "; //inits the row border
+	string rowBorderElement = "|---------"; //inits the row border element
+	for (COLUMN column=1; column <= HORIZONTAL_DIM; column++) //builds the rowBorder and column header because it does not change
 	{
-		string columnCenterSpacing = "    ";	
-		columnHeader += ("|" + columnCenterSpacing + std::to_string(column) + columnCenterSpacing);
-		rowBoarder += rowBoarderElement;
+		string columnCenterSpacing = "    "; // Creates the space to center the the column label. Only works if the column label is one character
+		columnHeader += ("|" + columnCenterSpacing + encodeColumn(column) + columnCenterSpacing); //Adds an element to the column header 
+		rowBorder += rowBorderElement; //Adds a rowBorder element to build up the border row
 	}
-	columnHeader += "|\n";
-	rowBoarder += "|\n";
+	columnHeader += "|\n"; //Adds the end to the column header
+	rowBorder += "|\n"; //Adds the end to the row border 
 
-	for (ROW row=A; row <= VERTICAL_DIM;)
+	string boardContent=""; //The final board that will be printed
+	string rowCenterElement = "|         "; //The element that represents the blank center of each board cell
+	boardContent += columnHeader; //add the header to the board
+	for (ROW row=A; row <= VERTICAL_DIM;) //Adds each row to the board
 	{
-		columnContent += rowBoarder;
-		columnContent += rowNames[row-1];
-		for (int column=1; column <= HORIZONTAL_DIM; column++) 
+		boardContent += rowBorder; //Adds the border of the row.
+		boardContent += encodeRow(row); // Adds the name of the row
+		for (int column=1; column <= HORIZONTAL_DIM; column++) // for each column add a row center element 
 		{
-			columnContent += rowCenterElement;
+			boardContent += rowCenterElement; //add a center element
 		}
-		columnContent += "|\n";
-		row=static_cast<ROW>(static_cast<int>(row)+1);
+		boardContent += "|\n"; // Cap off the end of the row
+		row=static_cast<ROW>(static_cast<int>(row)+1); //moves to next row
     }
-	columnContent += rowBoarder;
-	out<<columnHeader<<columnContent<<endl;
+	boardContent += rowBorder; // Capp of the end of the board with the bottom border
+
+	out<<boardContent; //adds the boardCentent to the out stream
 }
 
 

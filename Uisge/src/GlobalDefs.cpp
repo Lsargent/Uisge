@@ -18,7 +18,33 @@ ROW deCodeROW(char cSourceRow)
     // You should never get here
     return INVALID_ROW;
 }
-
+string encodeRow(ROW row)
+{
+	switch(row){
+		case A:
+			return "A";
+			break;
+		case B:
+			return "B";
+			break;
+		case C:
+			return "C";
+			break;
+		case D:
+			return "D";
+			break;
+		case E:
+			return "E";
+			break;
+		case F:
+			return "F";
+			break;
+		default:
+			return "";
+			break;
+	}
+	return "";
+}
 COLUMN deCodeCOLUMN(char cSourceColumn)
 {
     switch(cSourceColumn)
@@ -35,3 +61,8 @@ COLUMN deCodeCOLUMN(char cSourceColumn)
     // You should never get here
     return INVALID_COLUMN;
 }
+string encodeColumn(COLUMN column)
+{		
+	return std::to_string(column);
+}
+
