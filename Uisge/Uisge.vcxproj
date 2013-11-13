@@ -15,13 +15,19 @@
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\GlobalDefs.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Player.cpp" />
     <ClCompile Include="src\Position.cpp" />
+    <ClCompile Include="src\Team.cpp" />
+    <ClCompile Include="src\Token.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Board.h" />
     <ClInclude Include="src\Game.h" />
     <ClInclude Include="src\GlobalDefs.h" />
+    <ClInclude Include="src\Player.h" />
     <ClInclude Include="src\Position.h" />
+    <ClInclude Include="src\Team.h" />
+    <ClInclude Include="src\Token.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
