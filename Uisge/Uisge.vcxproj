@@ -30,7 +30,7 @@
     <ClInclude Include="src\Token.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram.cd" />
+    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{F546B255-6402-4950-B5DE-50D1D48CD46B}</ProjectGuid>
