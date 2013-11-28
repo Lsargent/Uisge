@@ -18,9 +18,9 @@ Board::Board(void)
     for (ROW row=A; static_cast<unsigned int>(row) <= VERTICAL_DIM; )
     {
 	for (COLUMN column=1; column<=HORIZONTAL_DIM;column++)
-            {
+        {
             mPositions[row-1][column-1]= new Position(row,column);  // Arrays start on zero indexes
-            }
+        }
 	row=static_cast<ROW>(row+1);
     }
 }
@@ -31,9 +31,9 @@ Board::~Board(void)
 
     for (ROW row=A; row <= VERTICAL_DIM;)
     {
-	for (COLUMN column=1; column<=HORIZONTAL_DIM;column++)
+		for (COLUMN column=1; column<=HORIZONTAL_DIM;column++)
             delete mPositions[row-1][column-1];
-	row=static_cast<ROW>(static_cast<int>(row)+1);
+		row=static_cast<ROW>(static_cast<int>(row)+1);
     }
 }
 

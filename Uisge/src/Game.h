@@ -10,6 +10,7 @@ using namespace std;
 
 class Player;
 class Board;
+class Arrangement;
 
 /** @brief An object of this class represents the UISGE game.
  *
@@ -23,6 +24,7 @@ private:
     vector <Player *> mPlayers; ///< Pointers to the players
     Player *mActivePlayer; ///< Players alternate in moving tokens. This is the current player.
     Board *mBoard; ///< Pointer to the board
+    Arrangement *mArrangement; ///< Pointer to the arrangment of tokens on the board
     string mMessage; ///< Info or error message (if an attempt is made, not to stick to the rules) to be shown on the UI
 
 public:
@@ -35,6 +37,7 @@ public:
     /// Navigation
     Board* getTheBoard() const; ///< Only one board per game
     Player* getThePlayer(string sName) const; ///< Get player identified by sName
+    Arrangement* getTheArrangement() const; ///< Only one arrangement per game
 
     void setActivePlayer(string sName); ///< Make player with name sName the active player
     Player* getActivePlayer() const;    ///< Get the active player

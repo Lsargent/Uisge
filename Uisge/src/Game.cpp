@@ -14,6 +14,7 @@ using namespace std;
 #include "Token.h"
 #include "Position.h"
 #include "Board.h"
+#include "Arrangement.h"
 
 
 Game::Game(void)
@@ -35,16 +36,24 @@ Game::Game(void)
     thePlayer=new Player("Black");
     mPlayers.push_back(thePlayer);
     thePlayer->connectTo(this);
- 
+	/// \todo create the arrangement 
+	/// \todo add all players to it, collects all tokens
 
+	mArrangement=new Arrangement();
+	for (int i = 0; i < mPlayers.size(); i++)
+	{
+		mArrangement->Add(mPlayers[i]);
+	}
     initialize();
 }
 
 Game::~Game(void)
 {
-    //free memory for allocated players and board
+    //free memory for allocated players, board and arrangement
     mPlayers.clear();
     delete mBoard;
+    /// \todo handle arrangement
+	delete(mArrangement);
 }
 
 void Game::setFinished()
@@ -80,6 +89,12 @@ Player* Game::getActivePlayer() const
     return mActivePlayer;
 }
 
+Arrangement* Game::getTheArrangement() const
+{
+/// \todo
+	return mArrangement;
+}
+
 string Game::getMessage() const
 {
     return mMessage;
@@ -109,12 +124,10 @@ void Game::initialize()
     thePosition=theBoard->getThePosition(D,4);
     theToken->putTo(thePosition);
 
-
     // next token
     theToken=theWhiteTeam->getTheToken(3);
     thePosition=theBoard->getThePosition(D,5);
     theToken->putTo(thePosition);
-
 
     // next token
     theToken=theWhiteTeam->getTheToken(4);
@@ -210,8 +223,56 @@ void Game::run()
             mMessage="Please choose a source position with a token on it and a target position that is free. Try again.";
             continue;
         }
+		Board *theBoard=getTheBoard();
+        Position *SourcePosition=theBoard->getThePosition(SourceRow,SourceColumn);
+        Position *TargetPosition=theBoard->getThePosition(TargetRow,TargetColumn);
 
-       /// \todo check input, perform move, check consequences
+        Player *activePlayer=mActivePlayer;
+        // Attempt to move from SourcePosition. The token there must belong to the team of the ActivePlayer
+        // Check first if there is a token ...
+        if (SourcePosition->isOccupied())
+        {
+            Player *selectedPlayer=SourcePosition->getToken()->getTeam()->getPlayer();
+            if (activePlayer == selectedPlayer)
+            {
+                bool successfulMove=SourcePosition->getToken()->move(TargetPosition);
+                // on successfulMove, change Players alternately
+                if (successfulMove)
+                {
+                    // check if active player has won
+                    string sPlayerName=activePlayer->getName();
+					mMessage="Welcome to Uisge!";
+                    if (activePlayer->hasWon())
+                    {
+                        stringstream sstream;
+                        string sMessage="Player ";
+                        sstream << sPlayerName << " wins the game!";
+
+                        mMessage = sMessage + sstream.str();
+                        setFinished();
+                        cout << mMessage << endl;
+                        continue; // the loop
+                    }
+                    if (sPlayerName == "White")
+                        setActivePlayer("Black");
+                    else
+                        setActivePlayer("White");
+                }
+                else
+                { // Move not possible, the reason is in mMessage
+					//TargetPosition->getToken()->move(SourcePosition);
+					mMessage="Please choose a qualified targetPosition." ;
+                }
+            }
+            else // token is not of the active player
+            {
+                mMessage="Please choose a token of the active player. Try again." ;
+            }
+        }
+        else // .. not occupied
+        {
+            mMessage="Please choose a source position with a token on it. Try again." ;
+        }
 
     } // while
 }

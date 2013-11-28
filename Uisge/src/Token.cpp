@@ -7,6 +7,7 @@
 #include "Token.h"
 #include "Position.h"
 #include "Board.h"
+#include "Arrangement.h"
 
 #include <sstream>
 #include <string>
@@ -84,14 +85,33 @@ bool Token::jump(Position *toPosition)
     Player *thePlayer=theTeam->getPlayer();
     Game *theGame=thePlayer->getGame();
 
-    /// \todo Jump only possible if there is a token between source and target position
+    // Jump only possible if there is a token between source and target position
+    if (!(isThereAHorizontalOrVerticalNeighborTokenInBetween(toPosition)))
+    {
+        theGame->setMessage("You can only jump over another token. Try again.");
+        return false;
+    }
 
-
-    /// \todo put to toPosition
-
-    /// \todo leave from current position
-
+    // put to toPosition
+	Position *currentPosition=this->mPosition;
+    putTo(toPosition);
+    // leave from current position
     
+	//mPosition=toPosition;
+    leaveFrom(currentPosition);
+
+    // \todo Check is Arrangement is connected
+	if(!theGame->getTheArrangement()->checkConnected())
+	{
+		return false;
+		//putTo(currentPosition);
+		//leaveFrom(toPosition);
+	}
+	else
+	{
+		return true;
+	}
+	//return 
 }
 
 bool Token::isNeighbor(Token *theToken, ADJACENCY theDirection) const
@@ -112,8 +132,8 @@ bool Token::isThereAHorizontalOrVerticalNeighborTokenInBetween(Position *thePosi
     ADJACENCY theDirection=NOT_ADJACENT;
 
     /// get theDirection by examining the differences in rows and in columns
-    int rowDifference=mPosition->getRowDistance(thePosition);
-    int columnDifference=mPosition->getColumnDistance(thePosition);
+    int rowDifference=mPosition->getRowDifference(thePosition);
+    int columnDifference=mPosition->getColumnDifference(thePosition);
 
     if ((rowDifference == 0) && (columnDifference == -2))
         theDirection = EAST;
@@ -182,13 +202,32 @@ void Token::turn()
 bool Token::draw(Position *toPosition)
 {
 
-    /// \todo do not turn stone
+    // do not turn stone
 
-    /// \todo put to toPosition
 
-    /// \todo leave from current position
+    // put to toPosition
+	Position *currentPosition=mPosition;
+    putTo(toPosition);
+    // leave from current position
+    
+	//mPosition=toPosition;
+    leaveFrom(currentPosition);
 
-    return true;
+    // \todo check connected
+	Team *theTeam=getTeam();
+	Player *thePlayer=theTeam->getPlayer();
+	Game *theGame=thePlayer->getGame();
+
+
+	if(!theGame->getTheArrangement()->checkConnected())
+	{
+		//putTo(currentPosition);
+		//leaveFrom(toPosition);
+	}
+	else
+	{
+		return true;
+	}
 }
 
 bool Token::move(Position *toPosition)
@@ -205,13 +244,69 @@ bool Token::move(Position *toPosition)
         return false;
     }
 
-    /// \todo check if toPosition is on the board
-    
-    /// \todo check if position is occupied
-    
-    /// \todo decide whether it is a move or draw, and perform it
+    // check if toPosition is on the board
+    if ( !(toPosition->Check()))
+    {
+        theGame->setMessage("Target position is not on the board. Try again.");
+        return false;
+    }
 
-    /// \todo ...
+    // check if position is occupied
+    if (toPosition->isOccupied())
+    {
+        theGame->setMessage("Target position is occupied. Try again.");
+        return false;
+    }
+
+    unsigned int theDistance=mPosition->getDistance(toPosition);
+    switch (theDistance)
+    {
+    case 0:
+        // toPosition is the same as starting position
+        theGame->setMessage("Source and target are the same. Try again.");
+        return true;
+        break;
+    case 1:
+        // CROWN tokens can jump and draw, depending on the distance
+        if (isCROWN())
+        {
+            return draw(toPosition);
+        }
+        else
+        {
+            theGame->setMessage("Only CROWN tokens can DRAW. Try again.");
+            return false;
+        }
+        break;
+    case 2:
+        //either diagonally adjacent, or horizontallygetDistance/vertically two positions away
+        if (mPosition->isDiagonallyAdjacent(toPosition))
+        {
+            if (isCROWN())
+            {
+                return draw(toPosition);
+            }
+        }
+        else
+        {
+            {
+                // not adjacent
+                // CROWN and PAWN tokens can jump
+                return jump(toPosition);
+            }
+        }
+        break;
+    default:
+        // int -> string conversion for theDistance
+        stringstream sstream;
+        string sMessage="This token cannot move to a position with a distance of ";
+        sstream << theDistance << ". Try again.";
+
+        sMessage=sMessage + sstream.str();
+        theGame->setMessage(sMessage);
+        return false;
+        break;
+    }
     return true;
 }
 

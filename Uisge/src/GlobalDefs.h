@@ -3,6 +3,11 @@
 #ifndef GlobalDefs_H
 #define GlobalDefs_H
 
+// for Graph and Node
+
+#include <limits.h>
+const unsigned int INFINITY = UINT_MAX;  // Distances on the board are much shorter
+
 // for the board dimensions
 
 const unsigned int VERTICAL_DIM = 6;    // A change here must be followed by changing etROW and the  deCodeROW function

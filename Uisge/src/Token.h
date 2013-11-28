@@ -40,7 +40,6 @@ public:
     void putTo(Position *position); ///< Puts token to position
     void leaveFrom(Position *position); ///< Token leaves position
 
-    //
     void connectTo(Team *team); ///< Connects token to a team.
     Team* getTeam() const; ///< Returns the team that is connected to that token.
 

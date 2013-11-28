@@ -54,6 +54,7 @@ bool Position::isOccupied() const
 void Position::setVacant()
 {
     mVacant=true;
+	//mToken=NULL;
 }
 void Position::setOccupied()
 {
@@ -62,18 +63,23 @@ void Position::setOccupied()
 
 Token* Position::getToken() const
 {
+	if (mVacant)
+	{
+		return NULL;
+	}
     return mToken;
 }
 
 void  Position::connectTo(Token *token)
 {
     mToken=token;
+	
 }
 
 unsigned int Position::getDistance(Position* ToPosition) const
 {
-    int delta_h=getColumnDistance(ToPosition);   // horizontal distance
-    int delta_v=getRowDistance(ToPosition);      // vertical distance
+    int delta_h=getColumnDifference(ToPosition);   // horizontal distance
+    int delta_v=getRowDifference(ToPosition);      // vertical distance
 
     delta_h= delta_h >0 ? delta_h : -delta_h;    // distances are positive
     delta_v= delta_v >0 ? delta_v : -delta_v;
@@ -84,12 +90,12 @@ unsigned int Position::getDistance(Position* ToPosition) const
 }
 int Position::getRowDifference(Position *thePosition) const
 {
-/// \todo vertical difference
+    return mRow-thePosition->getRow(); // vertical difference
 }
 
 int Position::getColumnDifference(Position *thePosition) const
 {
-/// \todo horizontal difference
+    return mColumn-thePosition->getColumn(); // horizontal difference
 }
 
 ADJACENCY Position::getAdjacency(Position* thePosition) const
@@ -105,16 +111,14 @@ ADJACENCY Position::getAdjacency(Position* thePosition) const
     //             SOUTH_WEST  SOUTH   SOUTH_EAST
     //
 
-    // \todo insert the correct distances
-
-    if ( (delta_h ==    )  &&  ( delta_v ==   ) ) return NORTH;
-    if ( (delta_h ==    )  &&  ( delta_v ==   ) ) return NORTH_EAST;
-    if ( (delta_h ==    )  &&  ( delta_v ==   ) ) return EAST;
-    if ( (delta_h ==    )  &&  ( delta_v ==   ) ) return SOUTH_EAST;
-    if ( (delta_h ==    )  &&  ( delta_v ==   ) ) return SOUTH;
-    if ( (delta_h ==    )  &&  ( delta_v ==   ) ) return SOUTH_WEST;
-    if ( (delta_h ==    )  &&  ( delta_v ==   ) ) return WEST;
-    if ( (delta_h ==    )  &&  ( delta_v ==   ) ) return NORTH_WEST;
+    if ( (delta_h ==  1 )  &&  ( delta_v ==  0) ) return NORTH;
+    if ( (delta_h ==  1 )  &&  ( delta_v == -1) ) return NORTH_EAST;
+    if ( (delta_h ==  0 )  &&  ( delta_v == -1) ) return EAST;
+    if ( (delta_h == -1 )  &&  ( delta_v == -1) ) return SOUTH_EAST;
+    if ( (delta_h == -1 )  &&  ( delta_v ==  0) ) return SOUTH;
+    if ( (delta_h == -1 )  &&  ( delta_v ==  1) ) return SOUTH_WEST;
+    if ( (delta_h ==  0 )  &&  ( delta_v ==  1) ) return WEST;
+    if ( (delta_h ==  1 )  &&  ( delta_v ==  1) ) return NORTH_WEST;
 
     return NOT_ADJACENT;
 }
