@@ -11,19 +11,27 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Arrangement.cpp" />
     <ClCompile Include="src\Board.cpp" />
+    <ClCompile Include="src\Edge.cpp" />
     <ClCompile Include="src\Game.cpp" />
     <ClCompile Include="src\GlobalDefs.cpp" />
+    <ClCompile Include="src\Graph.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Node.cpp" />
     <ClCompile Include="src\Player.cpp" />
     <ClCompile Include="src\Position.cpp" />
     <ClCompile Include="src\Team.cpp" />
     <ClCompile Include="src\Token.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Arrangement.h" />
     <ClInclude Include="src\Board.h" />
+    <ClInclude Include="src\Edge.h" />
     <ClInclude Include="src\Game.h" />
     <ClInclude Include="src\GlobalDefs.h" />
+    <ClInclude Include="src\Graph.h" />
+    <ClInclude Include="src\Node.h" />
     <ClInclude Include="src\Player.h" />
     <ClInclude Include="src\Position.h" />
     <ClInclude Include="src\Team.h" />
@@ -31,6 +39,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram1.cd" />
+    <None Include="ClassDiagramStep4.cd" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{F546B255-6402-4950-B5DE-50D1D48CD46B}</ProjectGuid>
