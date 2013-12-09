@@ -103,12 +103,15 @@ bool Token::jump(Position *toPosition)
     // \todo Check is Arrangement is connected
 	if(!theGame->getTheArrangement()->checkConnected())
 	{
+		
+		putTo(currentPosition);
+		leaveFrom(toPosition);
+		theGame->setMessage(" Invalid move.  Board disconnect.  Try again.");
 		return false;
-		//putTo(currentPosition);
-		//leaveFrom(toPosition);
 	}
 	else
 	{
+		turn();
 		return true;
 	}
 	//return 
@@ -221,8 +224,10 @@ bool Token::draw(Position *toPosition)
 
 	if(!theGame->getTheArrangement()->checkConnected())
 	{
-		//putTo(currentPosition);
-		//leaveFrom(toPosition);
+		putTo(currentPosition);
+		leaveFrom(toPosition);
+		theGame->setMessage("Invalid move.  Board Disconnected.  Please try again.");
+		return false;
 	}
 	else
 	{
@@ -286,12 +291,18 @@ bool Token::move(Position *toPosition)
             {
                 return draw(toPosition);
             }
+			else
+			{
+				theGame->setMessage("Only CROWN tokens can DRAW. Try again.");
+				return false;
+			}
         }
         else
         {
             {
                 // not adjacent
                 // CROWN and PAWN tokens can jump
+				
                 return jump(toPosition);
             }
         }
@@ -307,6 +318,6 @@ bool Token::move(Position *toPosition)
         return false;
         break;
     }
-    return true;
+    return false;
 }
 

@@ -203,7 +203,6 @@ void Game::run()
     while (!(isFinished()))  // this loop control the input until the game is finished
     {
         bool continueLoop=false;
-
         continueLoop=UI(cout, cin,cCmd, cSourceRow, cSourceColumn, cTargetRow, cTargetColumn);
 
         if (continueLoop)
@@ -251,7 +250,8 @@ void Game::run()
                         mMessage = sMessage + sstream.str();
                         setFinished();
                         cout << mMessage << endl;
-                        continue; // the loop
+						return;
+                        //continue; // the loop
                     }
                     if (sPlayerName == "White")
                         setActivePlayer("Black");
@@ -261,7 +261,7 @@ void Game::run()
                 else
                 { // Move not possible, the reason is in mMessage
 					//TargetPosition->getToken()->move(SourcePosition);
-					mMessage="Please choose a qualified targetPosition." ;
+					//mMessage="Please choose a qualified targetPosition." ;
                 }
             }
             else // token is not of the active player
@@ -275,6 +275,8 @@ void Game::run()
         }
 
     } // while
+	// "Press q to quit"
+	return;
 }
 
 bool Game::UI(ostream& out, istream& in,
@@ -293,8 +295,9 @@ bool Game::UI(ostream& out, istream& in,
     out << "or" << endl;
     out << "enter the coordinates for your move in the format" << endl;
     out << "Move:E 4 E 6" <<endl;
+	out << "------------------------------------------------" << endl;
     out << "Move:";
-
+	_flushall();
     in  >> cCmd ;
 
     // if a command was given

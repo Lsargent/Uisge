@@ -11,6 +11,7 @@ int main()
 {
     Game myGame;
     myGame.run();
+	system("pause");
     return 0;
 }
 

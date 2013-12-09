@@ -29,7 +29,7 @@ Arrangement::~Arrangement(void)
 	{
 		delete(mTokens[i]);
 	}
-	delete(&mTokens);
+	//delete(&mTokens);
 }
 
 void Arrangement::Add(Player *thePlayer)
